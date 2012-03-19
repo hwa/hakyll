@@ -79,7 +79,8 @@ Library
     regex-tdfa  >= 1.1    && < 1.2,
     tagsoup     >= 0.12.6 && < 0.13,
     time        >= 1.1    && < 1.5,
-    unix        >= 2.4    && < 2.6
+    unix        >= 2.4    && < 2.6,
+    utf8-string >= 0.3.6
 
   Exposed-Modules:
     Hakyll

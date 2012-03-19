@@ -17,6 +17,7 @@ import Prelude hiding (reverse)
 import System.FilePath ((</>))
 import qualified Data.Map as M
 import qualified Data.Set as S
+import Codec.Binary.UTF8.String (encodeString)
 
 import Hakyll.Core.Compiler
 import Hakyll.Core.Compiler.Internal
@@ -199,7 +200,7 @@ build id' = Runtime $ do
                 Just url -> timed logger ("Routing to " ++ url) $ do
                     destination <-
                         destinationDirectory . hakyllConfiguration <$> ask
-                    let path = destination </> url
+                    let path = encodeString $ destination </> url
                     liftIO $ makeDirectories path
                     liftIO $ write path compiled
 

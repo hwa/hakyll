@@ -11,6 +11,7 @@ import System.Directory (getModificationTime)
 import System.Locale (defaultTimeLocale)
 import System.Time (formatCalendarTime, toCalendarTime)
 import qualified Data.ByteString.Lazy as LB
+import Codec.Binary.UTF8.String (decodeString, encodeString)
 
 import Hakyll.Core.Resource
 import Hakyll.Core.Resource.Provider
@@ -22,10 +23,10 @@ import Hakyll.Core.Configuration
 fileResourceProvider :: HakyllConfiguration -> IO ResourceProvider
 fileResourceProvider configuration = do
     -- Retrieve a list of paths
-    list <- map Resource . filter (not . shouldIgnoreFile configuration) <$>
+    list <- map Resource . map decodeString . filter (not . shouldIgnoreFile configuration) <$>
         getRecursiveContents False "."
-    makeResourceProvider list (readFile . unResource)
-                              (LB.readFile . unResource)
+    makeResourceProvider list (readFile . encodeString . unResource)
+                              (LB.readFile . encodeString . unResource)
                               mtime
   where
     mtime (Resource r) = do
